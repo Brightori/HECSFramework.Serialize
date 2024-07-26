@@ -6,4 +6,10 @@ namespace Components
     public interface ISavebleComponent
     {
     }
+
+    [Documentation(Doc.HECS, Doc.Serialization, "We can mark object for logic purpose")]
+    public interface IDirty
+    {
+        bool IsDirty { get; set; }
+    }
 }
