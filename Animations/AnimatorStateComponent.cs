@@ -9,6 +9,6 @@ namespace Components
     public sealed partial class AnimatorStateComponent : BaseComponent
     {
         [Field(0, typeof(AnimatorStateResolver))]
-        public AnimatorState State;
+        public AnimatorState State = new AnimatorState();
     }
 }
