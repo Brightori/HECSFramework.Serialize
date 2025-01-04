@@ -20,12 +20,12 @@ namespace HECSFramework.Serialize
 
         partial void SetBoolUnityPart(int id, bool value);
 
-        public void SetFloat(int id, float value)
+        public void SetFloat(int id, float value, float deltaTime = 0, float damp = 0)
         {
             floatParameters[id] = value;
-            SetFloatUnityPart(id, value);
+            SetFloatUnityPart(id, value, deltaTime, damp);
         }
-        partial void SetFloatUnityPart(int id, float value);
+        partial void SetFloatUnityPart(int id, float value, float deltaTime, float damp);
 
         public bool TryGetBool(int id ,out bool value)
         {
