@@ -1,16 +1,30 @@
-﻿using MessagePack;
-using System;
+﻿using System;
 using System.Numerics;
+using MessagePack;
 
 namespace HECSFramework.Core
 {
+#if JsonSerialize
+[Newtonsoft.Json.JsonObject]
+#endif
     [MessagePackObject, Serializable]
     public partial struct Vector3Serialize : IEquatable<Vector3Serialize>
     {
+#if JsonSerialize
+        [Newtonsoft.Json.JsonProperty("X")]
+#endif
         [Key(0)]
         public float X;
+
+#if JsonSerialize
+        [Newtonsoft.Json.JsonProperty("Y")]
+#endif
         [Key(1)]
         public float Y;
+
+#if JsonSerialize
+        [Newtonsoft.Json.JsonProperty("Z")]
+#endif
         [Key(2)]
         public float Z;
 
