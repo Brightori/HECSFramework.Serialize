@@ -1,5 +1,4 @@
 ﻿using Components;
-using System.Collections.Generic;
 
 namespace HECSFramework.Core
 {
@@ -10,6 +9,7 @@ namespace HECSFramework.Core
         public void Init(Entity entityForInit)
         {
             entityForInit.AddComponent(new ActorContainerID { ID = ContainerID });
+            InitEntity(entityForInit);
         }
 
         protected abstract void InitEntity(Entity entity);

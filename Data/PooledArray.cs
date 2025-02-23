@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Buffers;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HECSFramework.Serialize
 {
@@ -58,5 +59,7 @@ namespace HECSFramework.Serialize
             Release();
             return newArray;
         }
+
+        public static implicit operator ArraySegment<byte>(PooledArray d) => new ArraySegment<byte>(d.Data, 0, d.Length);
     }
 }
