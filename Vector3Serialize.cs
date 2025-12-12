@@ -59,7 +59,7 @@ namespace HECSFramework.Core
         public static Vector3Serialize Zero => new Vector3Serialize(0, 0, 0);
         
         [IgnoreMember]
-        public static Vector3Serialize One => new Vector3Serialize(0, 0, 0);
+        public static Vector3Serialize One => new Vector3Serialize(1, 1, 1);
 
         public override string ToString()
             => $"({X}, {Y}, {Z})";

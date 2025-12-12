@@ -38,7 +38,7 @@ namespace HECSFramework.Core
         public static Vector2Serialize Zero => new Vector2Serialize(0, 0);
         
         [IgnoreMember]
-        public static Vector2Serialize One => new Vector2Serialize(0, 0);
+        public static Vector2Serialize One => new Vector2Serialize(1, 1);
 
         public bool Equals(Vector2Serialize other)
             => X.Equals(other.X) && Y.Equals(other.Y);
