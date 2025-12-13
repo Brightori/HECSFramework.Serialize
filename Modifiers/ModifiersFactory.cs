@@ -21,14 +21,14 @@ namespace HECSFramework.Serialize
 
         public void ProcessFloatModifierResolver(Entity entity, FloatModifierResolver floatModifierResolver, bool isUnique = false)
         {
-            if (floatModifiersProcessors.TryGetValue(floatModifierResolver.Index,
+            if (floatModifiersProcessors.TryGetValue(floatModifierResolver.ModifierType,
                 out FloatModifierProcessor modifierFloatProcessor))
             {
                 var modifier = modifierFloatProcessor.GetModifier(floatModifierResolver);
 
                 entity.Command(new AddCounterModifierCommand<float>
                 {
-                    Id = modifier.ModifierID,
+                    Id = modifier.ModifierCounterID,
                     IsUnique = isUnique,
                     Modifier = modifier,
                     Owner = entity.GUID
@@ -38,14 +38,14 @@ namespace HECSFramework.Serialize
 
         public void ProcessIntModifierResolver(Entity entity, IntModifierResolver intModifierResolver, bool isUnique = false)
         {
-            if (intModifiersProcessors.TryGetValue(intModifierResolver.Index,
+            if (intModifiersProcessors.TryGetValue(intModifierResolver.ModifierType,
                 out IntModifierProcessor modifierFloatProcessor))
             {
                 var modifier = modifierFloatProcessor.GetModifier(intModifierResolver);
 
                 entity.Command(new AddCounterModifierCommand<int>
                 {
-                    Id = modifier.ModifierID,
+                    Id = modifier.ModifierCounterID,
                     IsUnique = isUnique,
                     Modifier = modifier,
                     Owner = entity.GUID
@@ -55,7 +55,7 @@ namespace HECSFramework.Serialize
 
         public IModifier<float> ProcessFloatModifierResolver(FloatModifierResolver floatModifierResolver, bool isUnique = false)
         {
-            if (floatModifiersProcessors.TryGetValue(floatModifierResolver.Index,
+            if (floatModifiersProcessors.TryGetValue(floatModifierResolver.ModifierType,
                 out FloatModifierProcessor modifierFloatProcessor))
             {
                 return modifierFloatProcessor.GetModifier(floatModifierResolver);
@@ -66,7 +66,7 @@ namespace HECSFramework.Serialize
 
         public IModifier<int> ProcessFloatModifierResolver(IntModifierResolver floatModifierResolver, bool isUnique = false)
         {
-            if (intModifiersProcessors.TryGetValue(floatModifierResolver.Index,
+            if (intModifiersProcessors.TryGetValue(floatModifierResolver.ModifierType,
                 out IntModifierProcessor modifierFloatProcessor))
             {
                 return modifierFloatProcessor.GetModifier(floatModifierResolver);

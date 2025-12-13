@@ -8,7 +8,7 @@ namespace HECSFramework.Serialize
     public struct IntModifierResolver
     {
         [Key(0)]
-        public int Index;
+        public int ModifierType;
 
         [Key(1)]
         public int Value;
@@ -16,11 +16,15 @@ namespace HECSFramework.Serialize
         [Key(2)]
         public Guid Guid;
 
+        [Key(3)]
+        public int CounterID;
+
         public IntModifierResolver(IModifier<int> modifier)
         {
-            Index = modifier.ModifierID;
+            ModifierType = modifier.ModifierType;
             Value = modifier.GetValue;
             Guid = modifier.ModifierGuid;
+            CounterID = modifier.ModifierCounterID;
         }
     }
 }
