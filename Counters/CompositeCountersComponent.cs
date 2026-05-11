@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using HECSFramework.Core;
 using HECSFramework.Serialize;
 using MessagePack;
@@ -7,8 +8,9 @@ using MessagePack;
 namespace Components
 {
     [Serializable]
+    [RequiredAtContainer(typeof(CountersHolderComponent))]
     [Documentation(Doc.HECS, Doc.Counters, "here we hold just counters without componets to add them to counters holder, we need use it if we want operate counters and resources and save them between sessions, otherwise better use counters holder directly")]
-    public class CompositeCountersComponent : BaseComponent, ISavebleComponent
+    public partial class CompositeCountersComponent : BaseComponent, ISavebleComponent, IAfterSerializationComponent
     {
         [Field(0, typeof(DefaultIntCounterListResolver))]
         public List<DefaultIntCounter> IntCounters = new List<DefaultIntCounter>(0);
@@ -26,6 +28,48 @@ namespace Components
             foreach (var counter in FloatCounters)
             {
                 Owner.GetComponent<CountersHolderComponent>().AddCounter(counter);
+            }
+        }
+
+        public void AddCounter(DefaultIntCounter counter)
+        {
+            IntCounters.Add(counter);
+
+            if (Owner.TryGetComponent(out CountersHolderComponent countersHolderComponent))
+            {
+                countersHolderComponent.AddCounter(counter);
+            }
+        }
+
+        public void AddCounter(DefaultFloatCounter counter)
+        {
+            FloatCounters.Add(counter);
+
+            if (Owner.TryGetComponent(out CountersHolderComponent countersHolderComponent))
+            {
+                countersHolderComponent.AddCounter(counter);
+            }
+        }
+
+        public void AfterSync()
+        {
+            if (Owner.TryGetComponent(out CountersHolderComponent countersHolderComponent))
+            {
+                foreach (var counter in IntCounters)
+                {
+                    if (!countersHolderComponent.TryGetIntCounter(counter.Id, out var getCounter))
+                    {
+                        countersHolderComponent.AddCounter(counter);
+                    }
+                }
+
+                foreach (var counter in FloatCounters)
+                {
+                    if (!countersHolderComponent.TryGetFloatCounter(counter.Id, out var getCounter))
+                    {
+                        countersHolderComponent.AddCounter(counter);
+                    }
+                }
             }
         }
     }
@@ -54,7 +98,16 @@ namespace Components
 
             foreach (var counter in FloatToIDs)
             {
-                data.Add(new DefaultFloatCounter(counter.Value, counter.ID));
+                var neededcounter = data.FirstOrDefault(x => x.Id == counter.ID);
+                
+                if (neededcounter != null)
+                {
+                    neededcounter.SetValue(counter.Value);
+                }
+                else
+                {
+                    data.Add(new DefaultFloatCounter(counter.Value, counter.ID));
+                }
             }
         }
     }
